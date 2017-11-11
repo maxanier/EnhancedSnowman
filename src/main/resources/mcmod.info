@@ -1,0 +1,19 @@
+[
+  {
+    "modid": "enhanced_snowman",
+    "name": "EnhancedSnowman",
+    "description": "Makes snowmen deal a tiny amount of damage",
+    "version": "${version}",
+    "mcversion": "${mcversion}",
+    "url": "https://maxanier.de",
+    "updateUrl": "",
+    "authorList": [
+      "maxanier"
+    ],
+    "credits": "",
+    "logoFile": "",
+    "screenshots": [],
+    "dependencies": [
+    ]
+  }
+]
