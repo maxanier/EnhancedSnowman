@@ -28,7 +28,7 @@ import java.util.Map;
         modid = ModEnhancedSnowman.MOD_ID,
         name = ModEnhancedSnowman.MOD_NAME,
         version = ModEnhancedSnowman.VERSION,
-        acceptedMinecraftVersions = "[1.12.0,1.13)"
+        acceptedMinecraftVersions = "[1.11.2]"
 )
 public class ModEnhancedSnowman {
 
@@ -84,16 +84,16 @@ public class ModEnhancedSnowman {
     @SubscribeEvent
     public void onLivingBaseAttack(LivingAttackEvent event) {
 
-        if (event.getAmount() == 0.0F && event.getSource().getImmediateSource() instanceof EntitySnowball) {
+        if (event.getAmount() == 0.0F && event.getSource().getSourceOfDamage() instanceof EntitySnowball) {
             if (event.getEntityLiving().getEntityWorld().isRemote) return;
-            if (event.getSource().getTrueSource() instanceof EntitySnowman || (Configs.playersDealDamage && event.getSource().getTrueSource() instanceof EntityPlayer)) {
+            if (event.getSource().getEntity() instanceof EntitySnowman || (Configs.playersDealDamage && event.getSource().getEntity() instanceof EntityPlayer)) {
                 if (event.getEntityLiving() instanceof IMob || !Configs.onlyHostile) {
-                    EntitySnowball ball = (EntitySnowball) event.getSource().getImmediateSource();
+                    EntitySnowball ball = (EntitySnowball) event.getSource().getSourceOfDamage();
                     if (!ball.getEntityData().hasKey("dealt_damage")) {
                         ball.getEntityData().setBoolean("dealt_damage", true);
                         event.getEntityLiving()
                                 .attackEntityFrom(
-                                        new EntityDamageSourceIndirect("thrown", event.getSource().getImmediateSource(), event.getSource().getTrueSource()),
+                                        new EntityDamageSourceIndirect("thrown", event.getSource().getSourceOfDamage(), event.getSource().getEntity()),
                                         Configs.snowballDamage);
                         if (Configs.slowness) {
                             event.getEntityLiving().addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 40, 1));
@@ -107,7 +107,7 @@ public class ModEnhancedSnowman {
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public void onDeath(LivingDeathEvent event) {
-        if (Configs.convert && event.getSource().getTrueSource() instanceof EntitySnowman) {
+        if (Configs.convert && event.getSource().getEntity() instanceof EntitySnowman) {
             EntitySnowman snowman = new EntitySnowman(event.getEntityLiving().world);
             snowman.copyLocationAndAnglesFrom(event.getEntityLiving());
             event.getEntityLiving().getEntityWorld().spawnEntity(snowman);
