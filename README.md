@@ -1,6 +1,6 @@
 Enhanced Snowman [![](http://cf.way2muchnoise.eu/versions/enhancedsnowman.svg)](https://minecraft.curseforge.com/projects/enhancedsnowman)
 ============================================
-[![forthebadge](http://forthebadge.com/images/badges/made-with-crayons.svg)](https://maxanier.de)  
+[![forthebadge](http://forthebadge.com/images/badges/made-with-crayons.svg)](https://maxanier.de) [![forthebadge](http://forthebadge.com/images/badges/you-didnt-ask-for-this.svg)](https://maxanier.de)
 Finally, your snowman army is not completely useless anymore.  
 With this mod they deal a small amount of damage with their snowballs.  
 Thereby they can finally protect themselves from these evil monsters.  

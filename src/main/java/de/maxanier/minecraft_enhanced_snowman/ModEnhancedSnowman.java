@@ -1,5 +1,6 @@
 package de.maxanier.minecraft_enhanced_snowman;
 
+import de.maxanier.minecraft_enhanced_snowman.vampirism.VampirismIntegration;
 import net.minecraft.entity.monster.EntitySnowman;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.player.EntityPlayer;
@@ -13,6 +14,7 @@ import net.minecraftforge.common.config.ConfigManager;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -51,7 +53,9 @@ public class ModEnhancedSnowman {
     @Mod.EventHandler
     public void preinit(FMLPreInitializationEvent event) {
         MinecraftForge.EVENT_BUS.register(this);
-
+        if (Loader.isModLoaded(VampirismIntegration.ID)) {
+            VampirismIntegration.registerIntegration();
+        }
     }
 
     @SubscribeEvent

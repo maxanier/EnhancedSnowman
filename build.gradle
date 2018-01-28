@@ -32,9 +32,21 @@ minecraft {
 
 repositories {
     mavenCentral()
+    maven {
+        url = "https://maxanier.de/maven2"
+    }
+    maven {
+        // location of the maven that hosts JEI files
+        name = "Progwml6 maven"
+        url = "http://dvs1.progwml6.com/files/maven"
+    }
 }
 
 dependencies {
+    //compile against the Vampirism API
+    deobfCompile "de.teamlapen.vampirism:Vampirism:${project.minecraft.version}-${vampirism_version}:api"
+    //at runtime (in your development environment) use the full Vampirism jar
+    runtime "de.teamlapen.vampirism:Vampirism:${project.minecraft.version}-${vampirism_version}"
 }
 
 processResources {
