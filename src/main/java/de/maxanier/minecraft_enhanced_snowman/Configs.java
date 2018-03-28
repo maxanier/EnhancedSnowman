@@ -13,6 +13,8 @@ public class Configs {
     public static boolean playersDealDamage = false;
     @Config.Comment("Convert creatures killed by snowmen to a snowman")
     public static boolean convert = false;
+    @Config.Comment("Chance of converting killed creatures to snowmen if enabled. (0.0-1.0)")
+    public static double convert_chance = 1.0;
     @Config.Comment("Add a short freeze/slowness to a creature damaged by a snowball")
     public static boolean slowness = true;
 }

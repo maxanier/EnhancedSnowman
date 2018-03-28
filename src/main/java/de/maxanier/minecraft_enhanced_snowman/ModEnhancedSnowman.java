@@ -107,9 +107,11 @@ public class ModEnhancedSnowman {
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public void onDeath(LivingDeathEvent event) {
         if (Configs.convert && event.getSource().getTrueSource() instanceof EntitySnowman) {
-            EntitySnowman snowman = new EntitySnowman(event.getEntityLiving().getEntityWorld());
-            snowman.copyLocationAndAnglesFrom(event.getEntityLiving());
-            event.getEntityLiving().getEntityWorld().spawnEntity(snowman);
+            if (Configs.convert_chance > Math.random()) {
+                EntitySnowman snowman = new EntitySnowman(event.getEntityLiving().getEntityWorld());
+                snowman.copyLocationAndAnglesFrom(event.getEntityLiving());
+                event.getEntityLiving().getEntityWorld().spawnEntity(snowman);
+            }
         }
     }
 }
