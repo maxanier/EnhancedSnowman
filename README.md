@@ -19,7 +19,7 @@ Most of this is configurable.
 If you want to use this on a server, it is sufficient to install it on the server itself. Clients do not need this.
 
 ### Configuration
-Can either be done in the ingame mod list GUI (MC1.11 or higher) or by editing the config/enhanced_snowman.cfg
+Can either be done in the ingame mod list GUI (MC1.11 or MC 1.12) or by editing the config/enhanced_snowman.cfg/toml
 
 ```
     # Convert creatures killed by snowmen to a snowman
