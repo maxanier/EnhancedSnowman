@@ -1,12 +1,13 @@
 package de.maxanier.minecraft_enhanced_snowman;
 
-import net.minecraft.entity.monster.EntitySnowman;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.monster.IMob;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.projectile.EntitySnowball;
-import net.minecraft.init.MobEffects;
-import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.EntityDamageSourceIndirect;
+import net.minecraft.entity.passive.SnowGolemEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.projectile.SnowballEntity;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
+import net.minecraft.util.IndirectEntityDamageSource;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
@@ -50,33 +51,32 @@ public class ModEnhancedSnowman {
 
     }
 
-    //TODO 1.13 make server side only again
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public void onDeath(LivingDeathEvent event) {
-        if (Configs.COMMON.convert.get() && event.getSource().getTrueSource() instanceof EntitySnowman) {
+        if (Configs.COMMON.convert.get() && event.getSource().getTrueSource() instanceof SnowGolemEntity) {
             if (Configs.COMMON.convert_chance.get() > Math.random()) {
-                EntitySnowman snowman = new EntitySnowman(event.getEntityLiving().getEntityWorld());
+                SnowGolemEntity snowman = new SnowGolemEntity(EntityType.SNOW_GOLEM, event.getEntityLiving().getEntityWorld());
                 snowman.copyLocationAndAnglesFrom(event.getEntityLiving());
-                event.getEntityLiving().getEntityWorld().spawnEntity(snowman);
+                event.getEntityLiving().getEntityWorld().addEntity(snowman);
             }
         }
     }
 
     @SubscribeEvent
     public void onLivingBaseAttack(LivingAttackEvent event) {
-        if (event.getAmount() == 0.0F && event.getSource().getImmediateSource() instanceof EntitySnowball) {
+        if (event.getAmount() == 0.0F && event.getSource().getImmediateSource() instanceof SnowballEntity) {
             if (event.getEntityLiving().getEntityWorld().isRemote) return;
-            if (event.getSource().getTrueSource() instanceof EntitySnowman || (Configs.COMMON.playersDealDamage.get() && event.getSource().getTrueSource() instanceof EntityPlayer)) {
+            if (event.getSource().getTrueSource() instanceof SnowGolemEntity || (Configs.COMMON.playersDealDamage.get() && event.getSource().getTrueSource() instanceof PlayerEntity)) {
                 if (event.getEntityLiving() instanceof IMob || !Configs.COMMON.onlyHostile.get()) {
-                    EntitySnowball ball = (EntitySnowball) event.getSource().getImmediateSource();
-                    if (!ball.getEntityData().hasKey("dealt_damage")) {
-                        ball.getEntityData().setBoolean("dealt_damage", true);
+                    SnowballEntity ball = (SnowballEntity) event.getSource().getImmediateSource();
+                    if (!ball.getEntityData().contains("dealt_damage")) {
+                        ball.getEntityData().putBoolean("dealt_damage", true);
                         event.getEntityLiving()
                                 .attackEntityFrom(
-                                        new EntityDamageSourceIndirect("thrown", event.getSource().getImmediateSource(), event.getSource().getTrueSource()), Configs.COMMON.snowballDamage.get().floatValue());
+                                        new IndirectEntityDamageSource("thrown", event.getSource().getImmediateSource(), event.getSource().getTrueSource()), Configs.COMMON.snowballDamage.get().floatValue());
                         if (Configs.COMMON.slowness.get()) {
-                            event.getEntityLiving().addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 40, 1));
+                            event.getEntityLiving().addPotionEffect(new EffectInstance(Effects.SLOWNESS, 40, 1));
                         }
                     }
                 }

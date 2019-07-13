@@ -27,7 +27,7 @@ compileJava {
 
 minecraft {
 
-    mappings channel: "snapshot", version: "${project.mcp_mappings}".toString()    // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
+    mappings channel: "${project.mcp_channel}".toString(), version: "${project.mcp_mappings}".toString()
 
     // accessTransformer = file('build/resources/main/META-INF/accesstransformer.cfg')
 
@@ -80,6 +80,22 @@ dependencies {
             name   : "forge",
             version: "${project.mcversion}-${project.forgeversion}"
     ])
+}
+
+processResources {
+
+    from(sourceSets.main.resources.srcDirs) {
+        include 'META-INF/mods.toml'
+
+        expand 'version': project.version, 'forge_version': project.forgeversion
+    }
+    
+
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'META-INF/mods.toml'
+    }
+
+    exclude '**/Thumbs.db'
 }
 
 jar {
