@@ -70,8 +70,8 @@ public class ModEnhancedSnowman {
             if (event.getSource().getTrueSource() instanceof SnowGolemEntity || (Configs.COMMON.playersDealDamage.get() && event.getSource().getTrueSource() instanceof PlayerEntity)) {
                 if (event.getEntityLiving() instanceof IMob || !Configs.COMMON.onlyHostile.get()) {
                     SnowballEntity ball = (SnowballEntity) event.getSource().getImmediateSource();
-                    if (!ball.getEntityData().contains("dealt_damage")) {
-                        ball.getEntityData().putBoolean("dealt_damage", true);
+                    if (!ball.getPersistentData().contains("dealt_damage")) {
+                        ball.getPersistentData().putBoolean("dealt_damage", true);
                         event.getEntityLiving()
                                 .attackEntityFrom(
                                         new IndirectEntityDamageSource("thrown", event.getSource().getImmediateSource(), event.getSource().getTrueSource()), Configs.COMMON.snowballDamage.get().floatValue());
