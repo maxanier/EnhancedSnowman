@@ -23,11 +23,6 @@ public class Configs {
         LogManager.getLogger().debug("Loaded enhanced snowman config file {}", configEvent.getConfig().getFileName());
     }
 
-    @SubscribeEvent
-    public static void onFileChange(final ModConfig.ConfigReloading configEvent) {
-        LogManager.getLogger().fatal("Enhanced snowman config just got changed on the file system!");
-    }
-
     public static class Common {
         public final ForgeConfigSpec.DoubleValue snowballDamage;
         public final ForgeConfigSpec.BooleanValue onlyHostile;
