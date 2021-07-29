@@ -1,13 +1,13 @@
 package de.maxanier.minecraft_enhanced_snowman;
 
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.monster.IMob;
-import net.minecraft.entity.passive.SnowGolemEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.SnowballEntity;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Effects;
-import net.minecraft.util.IndirectEntityDamageSource;
+import net.minecraft.world.damagesource.IndirectEntityDamageSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.animal.SnowGolem;
+import net.minecraft.world.entity.monster.Enemy;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.Snowball;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
@@ -54,9 +54,9 @@ public class ModEnhancedSnowman {
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public void onDeath(LivingDeathEvent event) {
-        if (Configs.COMMON.convert.get() && event.getSource().getEntity() instanceof SnowGolemEntity) {
+        if (Configs.COMMON.convert.get() && event.getSource().getEntity() instanceof SnowGolem) {
             if (Configs.COMMON.convert_chance.get() > Math.random()) {
-                SnowGolemEntity snowman = new SnowGolemEntity(EntityType.SNOW_GOLEM, event.getEntityLiving().getCommandSenderWorld());
+                SnowGolem snowman = new SnowGolem(EntityType.SNOW_GOLEM, event.getEntityLiving().getCommandSenderWorld());
                 snowman.copyPosition(event.getEntityLiving());
                 event.getEntityLiving().getCommandSenderWorld().addFreshEntity(snowman);
             }
@@ -65,18 +65,18 @@ public class ModEnhancedSnowman {
 
     @SubscribeEvent
     public void onLivingBaseAttack(LivingAttackEvent event) {
-        if (event.getAmount() == 0.0F && event.getSource().getDirectEntity() instanceof SnowballEntity) {
+        if (event.getAmount() == 0.0F && event.getSource().getDirectEntity() instanceof Snowball) {
             if (event.getEntityLiving().getCommandSenderWorld().isClientSide) return;
-            if (event.getSource().getEntity() instanceof SnowGolemEntity || (Configs.COMMON.playersDealDamage.get() && event.getSource().getEntity() instanceof PlayerEntity)) {
-                if (event.getEntityLiving() instanceof IMob || !Configs.COMMON.onlyHostile.get()) {
-                    SnowballEntity ball = (SnowballEntity) event.getSource().getDirectEntity();
+            if (event.getSource().getEntity() instanceof SnowGolem || (Configs.COMMON.playersDealDamage.get() && event.getSource().getEntity() instanceof Player)) {
+                if (event.getEntityLiving() instanceof Enemy || !Configs.COMMON.onlyHostile.get()) {
+                    Snowball ball = (Snowball) event.getSource().getDirectEntity();
                     if (!ball.getPersistentData().contains("dealt_damage")) {
                         ball.getPersistentData().putBoolean("dealt_damage", true);
                         event.getEntityLiving()
                                 .hurt(
                                         new IndirectEntityDamageSource("thrown", event.getSource().getDirectEntity(), event.getSource().getEntity()), Configs.COMMON.snowballDamage.get().floatValue());
                         if (Configs.COMMON.slowness.get()) {
-                            event.getEntityLiving().addEffect(new EffectInstance(Effects.MOVEMENT_SLOWDOWN, 40, 1));
+                            event.getEntityLiving().addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 40, 1));
                         }
                     }
                 }

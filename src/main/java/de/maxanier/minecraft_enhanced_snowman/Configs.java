@@ -2,10 +2,7 @@ package de.maxanier.minecraft_enhanced_snowman;
 
 
 import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.config.ModConfig;
 import org.apache.commons.lang3.tuple.Pair;
-import org.apache.logging.log4j.LogManager;
 
 public class Configs {
 
@@ -18,10 +15,6 @@ public class Configs {
         COMMON = specPair.getLeft();
     }
 
-    @SubscribeEvent
-    public static void onLoad(final ModConfig.Loading configEvent) {
-        LogManager.getLogger().debug("Loaded enhanced snowman config file {}", configEvent.getConfig().getFileName());
-    }
 
     public static class Common {
         public final ForgeConfigSpec.DoubleValue snowballDamage;

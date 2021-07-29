@@ -1,6 +1,6 @@
 modLoader = "javafml" #mandatory
 # A version range to match for said mod loader - for regular FML @Mod it will be the forge version
-loaderVersion = "[35,)" #mandatory
+loaderVersion = "[37,)" #mandatory
 # A URL to refer people to when problems occur with this mod
 issueTrackerURL = "https://github.com/maxanier/EnhancedSnowman/issues" #optional
 license = "MIT"
