@@ -1,13 +1,12 @@
 buildscript {
     repositories {
-        jcenter()
         maven {
             name = "forge"
             url = "https://files.minecraftforge.net/maven"
         }
     }
     dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1+'
     }
 }
 

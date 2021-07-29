@@ -54,29 +54,29 @@ public class ModEnhancedSnowman {
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public void onDeath(LivingDeathEvent event) {
-        if (Configs.COMMON.convert.get() && event.getSource().getTrueSource() instanceof SnowGolemEntity) {
+        if (Configs.COMMON.convert.get() && event.getSource().getEntity() instanceof SnowGolemEntity) {
             if (Configs.COMMON.convert_chance.get() > Math.random()) {
-                SnowGolemEntity snowman = new SnowGolemEntity(EntityType.SNOW_GOLEM, event.getEntityLiving().getEntityWorld());
-                snowman.copyLocationAndAnglesFrom(event.getEntityLiving());
-                event.getEntityLiving().getEntityWorld().addEntity(snowman);
+                SnowGolemEntity snowman = new SnowGolemEntity(EntityType.SNOW_GOLEM, event.getEntityLiving().getCommandSenderWorld());
+                snowman.copyPosition(event.getEntityLiving());
+                event.getEntityLiving().getCommandSenderWorld().addFreshEntity(snowman);
             }
         }
     }
 
     @SubscribeEvent
     public void onLivingBaseAttack(LivingAttackEvent event) {
-        if (event.getAmount() == 0.0F && event.getSource().getImmediateSource() instanceof SnowballEntity) {
-            if (event.getEntityLiving().getEntityWorld().isRemote) return;
-            if (event.getSource().getTrueSource() instanceof SnowGolemEntity || (Configs.COMMON.playersDealDamage.get() && event.getSource().getTrueSource() instanceof PlayerEntity)) {
+        if (event.getAmount() == 0.0F && event.getSource().getDirectEntity() instanceof SnowballEntity) {
+            if (event.getEntityLiving().getCommandSenderWorld().isClientSide) return;
+            if (event.getSource().getEntity() instanceof SnowGolemEntity || (Configs.COMMON.playersDealDamage.get() && event.getSource().getEntity() instanceof PlayerEntity)) {
                 if (event.getEntityLiving() instanceof IMob || !Configs.COMMON.onlyHostile.get()) {
-                    SnowballEntity ball = (SnowballEntity) event.getSource().getImmediateSource();
+                    SnowballEntity ball = (SnowballEntity) event.getSource().getDirectEntity();
                     if (!ball.getPersistentData().contains("dealt_damage")) {
                         ball.getPersistentData().putBoolean("dealt_damage", true);
                         event.getEntityLiving()
-                                .attackEntityFrom(
-                                        new IndirectEntityDamageSource("thrown", event.getSource().getImmediateSource(), event.getSource().getTrueSource()), Configs.COMMON.snowballDamage.get().floatValue());
+                                .hurt(
+                                        new IndirectEntityDamageSource("thrown", event.getSource().getDirectEntity(), event.getSource().getEntity()), Configs.COMMON.snowballDamage.get().floatValue());
                         if (Configs.COMMON.slowness.get()) {
-                            event.getEntityLiving().addPotionEffect(new EffectInstance(Effects.SLOWNESS, 40, 1));
+                            event.getEntityLiving().addEffect(new EffectInstance(Effects.MOVEMENT_SLOWDOWN, 40, 1));
                         }
                     }
                 }
