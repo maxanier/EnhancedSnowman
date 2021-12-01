@@ -18,7 +18,7 @@ version = modVersion
 group = modGroup
 archivesBaseName = modBaseName + "-" + mcversion
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(16)
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
 minecraft {
 
