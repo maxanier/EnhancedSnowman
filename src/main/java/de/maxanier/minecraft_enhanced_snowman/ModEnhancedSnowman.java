@@ -1,5 +1,6 @@
 package de.maxanier.minecraft_enhanced_snowman;
 
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.IndirectEntityDamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -9,8 +10,10 @@ import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Snowball;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.EntityMobGriefingEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -81,6 +84,19 @@ public class ModEnhancedSnowman {
                     }
                 }
             }
+        }
+        if(Configs.COMMON.disable_heat_damage.get() && event.getSource() == DamageSource.ON_FIRE && event.getEntityLiving().getType() == EntityType.SNOW_GOLEM){
+            event.setCanceled(true);
+        }
+        if(Configs.COMMON.disable_water_damage.get() && event.getSource() == DamageSource.DROWN && event.getEntityLiving().getType() == EntityType.SNOW_GOLEM){
+            event.setCanceled(true);
+        }
+    }
+
+    @SubscribeEvent
+    public void onMobGriefing(EntityMobGriefingEvent event){
+        if(Configs.COMMON.prevent_snow_trail.get() && event.getEntity() instanceof SnowGolem){
+            event.setResult(Event.Result.DENY);
         }
     }
 }
