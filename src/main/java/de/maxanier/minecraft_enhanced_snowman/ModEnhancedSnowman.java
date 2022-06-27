@@ -62,6 +62,7 @@ public class ModEnhancedSnowman {
                 SnowGolem snowman = new SnowGolem(EntityType.SNOW_GOLEM, event.getEntityLiving().getCommandSenderWorld());
                 snowman.copyPosition(event.getEntityLiving());
                 event.getEntityLiving().getCommandSenderWorld().addFreshEntity(snowman);
+                event.getEntityLiving().deathTime = 19;
             }
         }
     }
