@@ -59,10 +59,10 @@ public class ModEnhancedSnowman {
     public void onDeath(LivingDeathEvent event) {
         if (Configs.COMMON.convert.get() && event.getSource().getEntity() instanceof SnowGolem) {
             if (Configs.COMMON.convert_chance.get() > Math.random()) {
-                SnowGolem snowman = new SnowGolem(EntityType.SNOW_GOLEM, event.getEntityLiving().getCommandSenderWorld());
-                snowman.copyPosition(event.getEntityLiving());
-                event.getEntityLiving().getCommandSenderWorld().addFreshEntity(snowman);
-                event.getEntityLiving().deathTime = 19;
+                SnowGolem snowman = new SnowGolem(EntityType.SNOW_GOLEM, event.getEntity().getCommandSenderWorld());
+                snowman.copyPosition(event.getEntity());
+                event.getEntity().getCommandSenderWorld().addFreshEntity(snowman);
+                event.getEntity().deathTime = 19;
             }
         }
     }
@@ -70,26 +70,26 @@ public class ModEnhancedSnowman {
     @SubscribeEvent
     public void onLivingBaseAttack(LivingAttackEvent event) {
         if (event.getAmount() == 0.0F && event.getSource().getDirectEntity() instanceof Snowball) {
-            if (event.getEntityLiving().getCommandSenderWorld().isClientSide) return;
+            if (event.getEntity().getCommandSenderWorld().isClientSide) return;
             if (event.getSource().getEntity() instanceof SnowGolem || (Configs.COMMON.playersDealDamage.get() && event.getSource().getEntity() instanceof Player)) {
-                if (event.getEntityLiving() instanceof Enemy || !Configs.COMMON.onlyHostile.get()) {
+                if (event.getEntity() instanceof Enemy || !Configs.COMMON.onlyHostile.get()) {
                     Snowball ball = (Snowball) event.getSource().getDirectEntity();
                     if (!ball.getPersistentData().contains("dealt_damage")) {
                         ball.getPersistentData().putBoolean("dealt_damage", true);
-                        event.getEntityLiving()
+                        event.getEntity()
                                 .hurt(
                                         new IndirectEntityDamageSource("thrown", event.getSource().getDirectEntity(), event.getSource().getEntity()), Configs.COMMON.snowballDamage.get().floatValue());
                         if (Configs.COMMON.slowness.get()) {
-                            event.getEntityLiving().addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 40, 1));
+                            event.getEntity().addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 40, 1));
                         }
                     }
                 }
             }
         }
-        if(Configs.COMMON.disable_heat_damage.get() && event.getSource() == DamageSource.ON_FIRE && event.getEntityLiving().getType() == EntityType.SNOW_GOLEM){
+        if (Configs.COMMON.disable_heat_damage.get() && event.getSource() == DamageSource.ON_FIRE && event.getEntity().getType() == EntityType.SNOW_GOLEM) {
             event.setCanceled(true);
         }
-        if(Configs.COMMON.disable_water_damage.get() && event.getSource() == DamageSource.DROWN && event.getEntityLiving().getType() == EntityType.SNOW_GOLEM){
+        if (Configs.COMMON.disable_water_damage.get() && event.getSource() == DamageSource.DROWN && event.getEntity().getType() == EntityType.SNOW_GOLEM) {
             event.setCanceled(true);
         }
     }
