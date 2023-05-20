@@ -1,10 +1,11 @@
 package de.maxanier.minecraft_enhanced_snowman;
 
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.damagesource.IndirectEntityDamageSource;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.animal.SnowGolem;
 import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.player.Player;
@@ -76,9 +77,9 @@ public class ModEnhancedSnowman {
                     Snowball ball = (Snowball) event.getSource().getDirectEntity();
                     if (!ball.getPersistentData().contains("dealt_damage")) {
                         ball.getPersistentData().putBoolean("dealt_damage", true);
-                        event.getEntity()
-                                .hurt(
-                                        new IndirectEntityDamageSource("thrown", event.getSource().getDirectEntity(), event.getSource().getEntity()), Configs.COMMON.snowballDamage.get().floatValue());
+                        Entity indirectEntity = event.getSource().getEntity();
+                        LivingEntity indirectEntityLiving = indirectEntity instanceof LivingEntity ? (LivingEntity) indirectEntity : null;
+                        event.getEntity().hurt(event.getEntity().getLevel().damageSources().mobProjectile(event.getSource().getDirectEntity(), indirectEntityLiving), Configs.COMMON.snowballDamage.get().floatValue());
                         if (Configs.COMMON.slowness.get()) {
                             event.getEntity().addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 40, 1));
                         }
@@ -86,10 +87,10 @@ public class ModEnhancedSnowman {
                 }
             }
         }
-        if (Configs.COMMON.disable_heat_damage.get() && event.getSource() == DamageSource.ON_FIRE && event.getEntity().getType() == EntityType.SNOW_GOLEM) {
+        if (Configs.COMMON.disable_heat_damage.get() && event.getSource().is(DamageTypes.ON_FIRE) && event.getEntity().getType() == EntityType.SNOW_GOLEM) {
             event.setCanceled(true);
         }
-        if (Configs.COMMON.disable_water_damage.get() && event.getSource() == DamageSource.DROWN && event.getEntity().getType() == EntityType.SNOW_GOLEM) {
+        if (Configs.COMMON.disable_water_damage.get() && event.getSource().is(DamageTypes.DROWN) && event.getEntity().getType() == EntityType.SNOW_GOLEM) {
             event.setCanceled(true);
         }
     }
