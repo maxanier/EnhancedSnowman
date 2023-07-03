@@ -79,7 +79,7 @@ public class ModEnhancedSnowman {
                         ball.getPersistentData().putBoolean("dealt_damage", true);
                         Entity indirectEntity = event.getSource().getEntity();
                         LivingEntity indirectEntityLiving = indirectEntity instanceof LivingEntity ? (LivingEntity) indirectEntity : null;
-                        event.getEntity().hurt(event.getEntity().getLevel().damageSources().mobProjectile(event.getSource().getDirectEntity(), indirectEntityLiving), Configs.COMMON.snowballDamage.get().floatValue());
+                        event.getEntity().hurt(event.getEntity().getCommandSenderWorld().damageSources().mobProjectile(event.getSource().getDirectEntity(), indirectEntityLiving), Configs.COMMON.snowballDamage.get().floatValue());
                         if (Configs.COMMON.slowness.get()) {
                             event.getEntity().addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 40, 1));
                         }
