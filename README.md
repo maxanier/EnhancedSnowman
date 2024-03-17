@@ -8,7 +8,7 @@ Thereby they can finally protect themselves from these evil monsters.
 If you want to go crazy, you can even allow snowmen to convert killed mobs into snowmen to join your army (config option).
 
 ### Details
-By default snowballs thrown by snowmen deal a small amount of damage to any hostile creature.  
+By default, snowballs thrown by snowmen deal a small amount of damage to any hostile creature.  
 It takes about 40 snowballs to kill a zombie, but if you have enough snowmen this should be quite quickly.
 Especially since the snowballs also freeze (slow down) the hit mob for two seconds.
 Snowballs thrown by players do not deal damage. 
