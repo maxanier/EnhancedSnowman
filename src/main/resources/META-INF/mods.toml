@@ -1,6 +1,6 @@
 modLoader = "javafml" #mandatory
 # A version range to match for said mod loader - for regular FML @Mod it will be the forge version
-loaderVersion = "[47,)" #mandatory
+loaderVersion = "${loader_version_range}" #mandatory
 # A URL to refer people to when problems occur with this mod
 issueTrackerURL = "https://github.com/maxanier/EnhancedSnowman/issues" #optional
 license = "MIT"
@@ -9,7 +9,7 @@ license = "MIT"
 # The modid of the mod
 modId = "enhanced_snowman" #mandatory
 # The version number of the mod - there's a few well known ${} variables useable here or just hardcode it
-version = "${version}" #mandatory
+version = "${mod_version}" #mandatory
 # A display name for the mod
 displayName="Enhanced Snowman" #mandatory
 
@@ -25,11 +25,11 @@ Makes snowmen deal a tiny amount of damage
 # A dependency - use the . to indicate dependency for a specific modid. Dependencies are optional.
 [[dependencies.enhanced_snowman]] #optional
     # the modid of the dependency
-    modId="forge" #mandatory
+modId = "neoforge" #mandatory
     # Does this dependency have to exist - if not, ordering below must be specified
-    mandatory=true #mandatory
+type = "required" #mandatory
     # The version range of the dependency
-    versionRange="[${forge_version},)" #mandatory
+versionRange = "${neo_version_range}" #mandatory
     # An ordering relationship for the dependency - BEFORE or AFTER required if the relationship is not mandatory
     ordering="NONE"
     # Side this dependency is applied on - BOTH, CLIENT or SERVER

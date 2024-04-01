@@ -68,8 +68,7 @@ tasks.withType(ProcessResources).configureEach {
             minecraft_version   : minecraft_version, minecraft_version_range: minecraft_version_range,
             neo_version         : neo_version, neo_version_range: neo_version_range,
             loader_version_range: loader_version_range,
-            mod_id              : mod_id, mod_name: mod_name, mod_license: mod_license, mod_version: mod_version,
-            mod_authors         : mod_authors, mod_description: mod_description,
+            mod_id: mod_id, mod_name: mod_name, mod_license: mod_license, mod_version: mod_version, mod_description: mod_description,
     ]
     inputs.properties replaceProperties
 
@@ -78,56 +77,8 @@ tasks.withType(ProcessResources).configureEach {
     }
 }
 
-processResources {
-    filesMatching("**/mods.toml"){
-        expand 'version': project.version, 'forge_version': project.neo_version
-    }
 
-    exclude '**/Thumbs.db'
-}
 
-//Replace strings in IDEA folders as well
-def resourceTargets = ['META-INF/mods.toml', 'pack.mcmeta']
-def intoTargets = ["$rootDir/out/production/resources/", "$rootDir/out/production/${project.name}.main/", "$rootDir/bin/main/"]
-def replaceProperties = ['version': project.version, 'forge_version': project.neo_version]
-processResources {
-    inputs.properties replaceProperties
-    replaceProperties.put 'project', project
-
-    filesMatching(resourceTargets) {
-        expand replaceProperties
-    }
-
-    intoTargets.each { target ->
-        if (file(target).exists()) {
-            copy {
-                from(sourceSets.main.resources) {
-                    include resourceTargets
-                    expand replaceProperties
-                }
-                into target
-            }
-        }
-    }
-    exclude '**/Thumbs.db'
-
-}
-
-jar {
-    manifest {
-        attributes([
-                "Specification-Title": "enhanced_snowman",
-                "Specification-Vendor": "maxanier",
-                "Specification-Version": "1", // We are version 1 of ourselves
-                "Implementation-Title": project.name,
-                "Implementation-Version": "${version}",
-                "Implementation-Vendor" :"maxanier",
-                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
-        ])
-    }
-}
-
-jar.finalizedBy('reobfJar')
 
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation

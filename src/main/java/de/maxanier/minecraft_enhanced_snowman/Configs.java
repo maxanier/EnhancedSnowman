@@ -1,33 +1,33 @@
 package de.maxanier.minecraft_enhanced_snowman;
 
 
-import net.minecraftforge.common.ForgeConfigSpec;
+import net.neoforged.neoforge.common.ModConfigSpec;
 import org.apache.commons.lang3.tuple.Pair;
 
 public class Configs {
 
     public static final Common COMMON;
-    static final ForgeConfigSpec confSpec;
+    static final ModConfigSpec confSpec;
 
     static {
-        final Pair<Configs.Common, ForgeConfigSpec> specPair = new ForgeConfigSpec.Builder().configure(Configs.Common::new);
+        final Pair<Configs.Common, ModConfigSpec> specPair = new ModConfigSpec.Builder().configure(Configs.Common::new);
         confSpec = specPair.getRight();
         COMMON = specPair.getLeft();
     }
 
 
     public static class Common {
-        public final ForgeConfigSpec.DoubleValue snowballDamage;
-        public final ForgeConfigSpec.BooleanValue onlyHostile;
-        public final ForgeConfigSpec.BooleanValue playersDealDamage;
-        public final ForgeConfigSpec.BooleanValue convert;
-        public final ForgeConfigSpec.DoubleValue convert_chance;
-        public final ForgeConfigSpec.BooleanValue slowness;
-        public final ForgeConfigSpec.BooleanValue prevent_snow_trail;
-        public final ForgeConfigSpec.BooleanValue disable_heat_damage;
-        public final ForgeConfigSpec.BooleanValue disable_water_damage;
+        public final ModConfigSpec.DoubleValue snowballDamage;
+        public final ModConfigSpec.BooleanValue onlyHostile;
+        public final ModConfigSpec.BooleanValue playersDealDamage;
+        public final ModConfigSpec.BooleanValue convert;
+        public final ModConfigSpec.DoubleValue convert_chance;
+        public final ModConfigSpec.BooleanValue slowness;
+        public final ModConfigSpec.BooleanValue prevent_snow_trail;
+        public final ModConfigSpec.BooleanValue disable_heat_damage;
+        public final ModConfigSpec.BooleanValue disable_water_damage;
 
-        Common(ForgeConfigSpec.Builder builder) {
+        Common(ModConfigSpec.Builder builder) {
             builder.comment("Snowman common settings");
             builder.push("common");
 
