@@ -37,15 +37,15 @@ public class ModEnhancedSnowman {
 
     public ModEnhancedSnowman(IEventBus modEventBus) {
         INSTANCE = this;
-        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Configs.confSpec);
 //        modEventBus.register(Configs.class);
 
         NeoForge.EVENT_BUS.register(this);
 
-        Optional<? extends ModContainer> opt = ModList.get().getModContainerById("enhanced_snowman");
+        Optional<? extends ModContainer> opt = ModList.get().getModContainerById(MOD_ID);
         if (opt.isPresent()) {
 
             org.apache.logging.log4j.LogManager.getLogger().info("Preparing Enhanced Snowman {}", opt.get().getModInfo().getVersion());
+            opt.get().registerConfig(ModConfig.Type.COMMON, Configs.confSpec);
         } else {
             org.apache.logging.log4j.LogManager.getLogger().error("Somehow Enhanced Snowman could not be found");
         }
@@ -96,7 +96,7 @@ public class ModEnhancedSnowman {
     @SubscribeEvent
     public void onMobGriefing(EntityMobGriefingEvent event){
         if(Configs.COMMON.prevent_snow_trail.get() && event.getEntity() instanceof SnowGolem){
-            event.setResult(Event.Result.DENY);
+            event.setCanGrief(false);
         }
     }
 }
