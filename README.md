@@ -1,4 +1,4 @@
-Enhanced Snowman [![](http://cf.way2muchnoise.eu/versions/enhancedsnowman.svg)](https://minecraft.curseforge.com/projects/enhancedsnowman)
+Enhanced Snowman [![](https://cf.way2muchnoise.eu/versions/281669.svg)](https://minecraft.curseforge.com/projects/enhancedsnowman)
 ============================================
 [![forthebadge](http://forthebadge.com/images/badges/made-with-crayons.svg)](https://maxanier.de)  
 Finally, your snowman army is not completely useless anymore.  

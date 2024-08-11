@@ -10,19 +10,17 @@ import net.minecraft.world.entity.animal.SnowGolem;
 import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Snowball;
-import net.neoforged.bus.api.Event;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.ModList;
-import net.neoforged.fml.ModLoadingContext;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.EntityMobGriefingEvent;
-import net.neoforged.neoforge.event.entity.living.LivingAttackEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
+import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 
 import java.util.Optional;
 
@@ -67,7 +65,7 @@ public class ModEnhancedSnowman {
     }
 
     @SubscribeEvent
-    public void onLivingBaseAttack(LivingAttackEvent event) {
+    public void onLivingBaseAttack(LivingIncomingDamageEvent event) {
         if (event.getAmount() == 0.0F && event.getSource().getDirectEntity() instanceof Snowball) {
             if (event.getEntity().getCommandSenderWorld().isClientSide) return;
             if (event.getSource().getEntity() instanceof SnowGolem || (Configs.COMMON.playersDealDamage.get() && event.getSource().getEntity() instanceof Player)) {
