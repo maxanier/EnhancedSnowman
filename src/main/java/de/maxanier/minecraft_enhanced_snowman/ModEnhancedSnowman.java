@@ -56,9 +56,9 @@ public class ModEnhancedSnowman {
     public void onDeath(LivingDeathEvent event) {
         if (Configs.COMMON.convert.get() && event.getSource().getEntity() instanceof SnowGolem) {
             if (Configs.COMMON.convert_chance.get() > Math.random()) {
-                SnowGolem snowman = new SnowGolem(EntityType.SNOW_GOLEM, event.getEntity().getCommandSenderWorld());
+                SnowGolem snowman = new SnowGolem(EntityType.SNOW_GOLEM, event.getEntity().level());
                 snowman.copyPosition(event.getEntity());
-                event.getEntity().getCommandSenderWorld().addFreshEntity(snowman);
+                event.getEntity().level().addFreshEntity(snowman);
                 event.getEntity().deathTime = 19;
             }
         }
@@ -67,7 +67,7 @@ public class ModEnhancedSnowman {
     @SubscribeEvent
     public void onLivingBaseAttack(LivingIncomingDamageEvent event) {
         if (event.getAmount() == 0.0F && event.getSource().getDirectEntity() instanceof Snowball) {
-            if (event.getEntity().getCommandSenderWorld().isClientSide) return;
+            if (event.getEntity().level().isClientSide) return;
             if (event.getSource().getEntity() instanceof SnowGolem || (Configs.COMMON.playersDealDamage.get() && event.getSource().getEntity() instanceof Player)) {
                 if (event.getEntity() instanceof Enemy || !Configs.COMMON.onlyHostile.get()) {
                     Snowball ball = (Snowball) event.getSource().getDirectEntity();
@@ -75,9 +75,9 @@ public class ModEnhancedSnowman {
                         ball.getPersistentData().putBoolean("dealt_damage", true);
                         Entity indirectEntity = event.getSource().getEntity();
                         LivingEntity indirectEntityLiving = indirectEntity instanceof LivingEntity ? (LivingEntity) indirectEntity : null;
-                        event.getEntity().hurt(event.getEntity().getCommandSenderWorld().damageSources().mobProjectile(event.getSource().getDirectEntity(), indirectEntityLiving), Configs.COMMON.snowballDamage.get().floatValue());
+                        event.getEntity().hurt(event.getEntity().level().damageSources().mobProjectile(event.getSource().getDirectEntity(), indirectEntityLiving), Configs.COMMON.snowballDamage.get().floatValue());
                         if (Configs.COMMON.slowness.get()) {
-                            event.getEntity().addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 40, 1));
+                            event.getEntity().addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 40, 1));
                         }
                     }
                 }
