@@ -6,10 +6,10 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.animal.SnowGolem;
+import net.minecraft.world.entity.animal.golem.SnowGolem;
 import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.Snowball;
+import net.minecraft.world.entity.projectile.throwableitemprojectile.Snowball;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -67,7 +67,7 @@ public class ModEnhancedSnowman {
     @SubscribeEvent
     public void onLivingBaseAttack(LivingIncomingDamageEvent event) {
         if (event.getAmount() == 0.0F && event.getSource().getDirectEntity() instanceof Snowball) {
-            if (event.getEntity().level().isClientSide) return;
+            if (event.getEntity().level().isClientSide()) return;
             if (event.getSource().getEntity() instanceof SnowGolem || (Configs.COMMON.playersDealDamage.get() && event.getSource().getEntity() instanceof Player)) {
                 if (event.getEntity() instanceof Enemy || !Configs.COMMON.onlyHostile.get()) {
                     Snowball ball = (Snowball) event.getSource().getDirectEntity();
